@@ -5,9 +5,21 @@ name: Publish catalog site
 on:
   push:
     branches: [main]
+  # Refreshes the "In review" tab when a pull request opens, changes or closes. The pull_request_target
+  # trigger runs the workflow from main and never checks out the pull request's code.
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review, closed]
+  workflow_dispatch:   # the intake workflow starts this after it opens a pull request
+  pull_request_review:
+    types: [submitted, dismissed]
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 permissions:
   contents: read
+  pull-requests: read
   pages: write
   id-token: write
 
@@ -21,6 +33,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: List open submissions for the In review tab
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/build_queue.py
 
       - name: Build catalog page
         env:
