@@ -24,7 +24,7 @@ docs/             reviewer checklist
 Claude Code, once per machine:
 
 ```bash
-claude plugin marketplace add YOUR-ORG/skill-registry
+claude plugin marketplace add nidhijain-sf/skill-registry
 ```
 
 Then inside Claude Code: `/plugin install <id>@team-skills`

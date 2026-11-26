@@ -7,7 +7,7 @@ Outputs:
   site/index.html                 browsable catalog page (built in CI, not committed)
 
 Settings come from environment variables so the same script works anywhere:
-  REGISTRY_REPO  owner/name used in install commands   (default YOUR-ORG/skill-registry)
+  REGISTRY_REPO  owner/name used in install commands   (default nidhijain-sf/skill-registry)
   REGISTRY_URL   link used by the "Submit a skill" button (default #)
   MARKETPLACE_NAME  name users type after @ in /plugin install (default team-skills)
 """
@@ -16,7 +16,7 @@ import os
 
 from registry import ROOT, risky_files, load_meta, skill_dirs
 
-REPO = os.environ.get("REGISTRY_REPO", "YOUR-ORG/skill-registry")
+REPO = os.environ.get("REGISTRY_REPO", "nidhijain-sf/skill-registry")
 URL = os.environ.get("REGISTRY_URL", "#")
 MARKETPLACE = os.environ.get("MARKETPLACE_NAME", "team-skills")
 
