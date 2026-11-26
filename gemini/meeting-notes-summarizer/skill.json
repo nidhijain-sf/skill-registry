@@ -1,0 +1,15 @@
+{
+  "id": "meeting-notes-summarizer",
+  "name": "Meeting Notes Summarizer",
+  "platform": "gemini",
+  "category": "Planning",
+  "tier": "community",
+  "status": "approved",
+  "version": "1.0.0",
+  "owner": "Example Team",
+  "owner_contact": "#example-team (Slack channel)",
+  "reviewed": "2026-11-26",
+  "description": "Summarises a meeting transcript into decisions, open questions and action items with owners.",
+  "tags": ["meetings", "summary"],
+  "tools": "Read documents"
+}

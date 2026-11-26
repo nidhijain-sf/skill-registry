@@ -1,0 +1,32 @@
+name: Validate submission
+
+# Runs on every pull request. Written for GitHub Actions; adapt the syntax if your Git host uses
+# a different CI system. The checks themselves are plain Python scripts.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate skills (schema, secrets, risky files)
+        run: python scripts/validate.py
+
+      - name: Rebuild generated files
+        run: python scripts/build_catalog.py
+
+      - name: Generated files must be committed
+        run: |
+          git diff --exit-code -- .claude-plugin/marketplace.json catalog/catalog.json \
+            || (echo "Run 'python scripts/build_catalog.py' and commit the result." && exit 1)
+
+      # Optional next step: an AI-assisted review that summarises what the skill does and flags
+      # prompt-injection or data-exfiltration patterns, posted as a PR comment for the human reviewer.

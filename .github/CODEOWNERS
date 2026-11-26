@@ -1,0 +1,20 @@
+# Merge requires an approving review from the matching owners (enable "Require review from Code Owners"
+# in branch protection for main). Replace YOUR-ORG and the team names with real ones.
+
+# Default: any submission needs one registry maintainer.
+*                          @YOUR-ORG/skill-registry-maintainers
+
+# Platform reviewers: people who understand each platform's permissions model.
+/claude/                   @YOUR-ORG/claude-skill-reviewers
+/gemini/                   @YOUR-ORG/gemini-skill-reviewers
+/slack/                    @YOUR-ORG/slackbot-skill-reviewers
+
+# Anything that executes code or reaches outside the model always needs the security group.
+**/scripts/                @YOUR-ORG/skill-security-reviewers
+**/hooks/                  @YOUR-ORG/skill-security-reviewers
+**/.mcp.json               @YOUR-ORG/skill-security-reviewers
+/slack/**/manifest.json    @YOUR-ORG/skill-security-reviewers
+
+# Changes to the review process itself.
+/scripts/                  @YOUR-ORG/skill-registry-maintainers @YOUR-ORG/skill-security-reviewers
+/.github/                  @YOUR-ORG/skill-registry-maintainers @YOUR-ORG/skill-security-reviewers

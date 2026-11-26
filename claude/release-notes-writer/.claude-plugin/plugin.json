@@ -1,0 +1,5 @@
+{
+  "name": "release-notes-writer",
+  "version": "1.0.0",
+  "description": "Turns merged pull request titles into customer-facing release notes, grouped by feature area."
+}

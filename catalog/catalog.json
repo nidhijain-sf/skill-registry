@@ -1,0 +1,63 @@
+[
+  {
+    "id": "release-notes-writer",
+    "name": "Release Notes Writer",
+    "platform": "claude",
+    "category": "Documentation",
+    "tier": "community",
+    "status": "approved",
+    "version": "1.0.0",
+    "owner": "Example Team",
+    "owner_contact": "#example-team (Slack channel)",
+    "reviewed": "2026-11-26",
+    "description": "Turns merged pull request titles into customer-facing release notes, grouped by feature area.",
+    "tags": [
+      "docs",
+      "release",
+      "writing"
+    ],
+    "tools": "Read, Grep",
+    "scripts": "None",
+    "path": "claude/release-notes-writer"
+  },
+  {
+    "id": "meeting-notes-summarizer",
+    "name": "Meeting Notes Summarizer",
+    "platform": "gemini",
+    "category": "Planning",
+    "tier": "community",
+    "status": "approved",
+    "version": "1.0.0",
+    "owner": "Example Team",
+    "owner_contact": "#example-team (Slack channel)",
+    "reviewed": "2026-11-26",
+    "description": "Summarises a meeting transcript into decisions, open questions and action items with owners.",
+    "tags": [
+      "meetings",
+      "summary"
+    ],
+    "tools": "Read documents",
+    "scripts": "None",
+    "path": "gemini/meeting-notes-summarizer"
+  },
+  {
+    "id": "standup-collector",
+    "name": "Standup Collector",
+    "platform": "slack",
+    "category": "Planning",
+    "tier": "community",
+    "status": "approved",
+    "version": "1.0.0",
+    "owner": "Example Team",
+    "owner_contact": "#example-team (Slack channel)",
+    "reviewed": "2026-11-26",
+    "description": "Prompts each team member for a daily update and posts one combined standup summary in the team channel.",
+    "tags": [
+      "standup",
+      "agile"
+    ],
+    "tools": "Scopes: chat:write, im:write, users:read",
+    "scripts": "None",
+    "path": "slack/standup-collector"
+  }
+]

@@ -1,0 +1,35 @@
+name: Publish catalog site
+
+# Runs when a reviewed pull request is merged. Merge to main is the approval, so this job
+# only builds and hosts the catalog page. Put the hosted page behind your company SSO.
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build catalog page
+        env:
+          REGISTRY_REPO: ${{ github.repository }}
+          REGISTRY_URL: ${{ github.server_url }}/${{ github.repository }}
+        run: python scripts/build_catalog.py
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - uses: actions/deploy-pages@v4

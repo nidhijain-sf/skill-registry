@@ -1,0 +1,12 @@
+{
+  "display_information": { "name": "Standup Collector" },
+  "features": {
+    "bot_user": { "display_name": "standup-collector", "always_online": false },
+    "slash_commands": [
+      { "command": "/standup", "description": "Post your daily update", "should_escape": false }
+    ]
+  },
+  "oauth_config": {
+    "scopes": { "bot": ["chat:write", "im:write", "users:read", "commands"] }
+  }
+}

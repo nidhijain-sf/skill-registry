@@ -1,0 +1,15 @@
+{
+  "id": "standup-collector",
+  "name": "Standup Collector",
+  "platform": "slack",
+  "category": "Planning",
+  "tier": "community",
+  "status": "approved",
+  "version": "1.0.0",
+  "owner": "Example Team",
+  "owner_contact": "#example-team (Slack channel)",
+  "reviewed": "2026-11-26",
+  "description": "Prompts each team member for a daily update and posts one combined standup summary in the team channel.",
+  "tags": ["standup", "agile"],
+  "tools": "Scopes: chat:write, im:write, users:read"
+}

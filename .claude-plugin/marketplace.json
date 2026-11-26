@@ -1,0 +1,15 @@
+{
+  "name": "team-skills",
+  "owner": {
+    "name": "Skill Registry maintainers"
+  },
+  "plugins": [
+    {
+      "name": "release-notes-writer",
+      "source": "./claude/release-notes-writer",
+      "description": "Turns merged pull request titles into customer-facing release notes, grouped by feature area.",
+      "version": "1.0.0",
+      "category": "Documentation"
+    }
+  ]
+}

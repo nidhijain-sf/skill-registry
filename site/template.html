@@ -1,0 +1,292 @@
+<title>Skill Exchange</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky top bar, left filter rail, card grid; detail panel slides in from the right */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --ink:#14181f; --muted:#5b6574; --line:#e3e6eb;
+  --accent:#0b5fff; --accent-ink:#ffffff; --accent-soft:#e8efff;
+  --ok:#0e7a4b; --ok-soft:#e1f4ea; --warn:#a15c00; --warn-soft:#fdf0d9; --bad:#b3261e; --bad-soft:#fbe6e4;
+  --code:#eef0f4;
+  --f-display:"Space Grotesk",system-ui,sans-serif; --f-body:"Inter",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1116; --surface:#171b22; --ink:#e8ebf0; --muted:#98a2b3; --line:#272d37;
+    --accent:#5b8cff; --accent-ink:#0b1020; --accent-soft:#1a2644;
+    --ok:#4cc38a; --ok-soft:#14301f; --warn:#e8b04a; --warn-soft:#33270f; --bad:#f08a82; --bad-soft:#3a1a18;
+    --code:#1e232c; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1116; --surface:#171b22; --ink:#e8ebf0; --muted:#98a2b3; --line:#272d37;
+  --accent:#5b8cff; --accent-ink:#0b1020; --accent-soft:#1a2644;
+  --ok:#4cc38a; --ok-soft:#14301f; --warn:#e8b04a; --warn-soft:#33270f; --bad:#f08a82; --bad-soft:#3a1a18;
+  --code:#1e232c; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+.wrap{max-width:1180px;margin:0 auto}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header.top{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:18px 0;border-bottom:1px solid var(--line)}
+.brand{font:700 20px/1 var(--f-display);letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.brand i{width:22px;height:22px;border-radius:6px;background:var(--accent);display:inline-block;position:relative}
+.brand i::after{content:"";position:absolute;inset:6px;border:2px solid var(--accent-ink);border-radius:2px}
+.tabs{display:flex;gap:4px;margin-left:8px}
+.tab{background:none;border:0;padding:7px 12px;border-radius:8px;color:var(--muted);cursor:pointer;font-weight:500}
+.tab[aria-selected="true"]{background:var(--accent-soft);color:var(--accent)}
+.tab .n{font:500 11px var(--f-mono);margin-left:6px;background:var(--warn-soft);color:var(--warn);padding:1px 6px;border-radius:99px}
+.spacer{flex:1}
+.btn{border:1px solid var(--line);background:var(--surface);padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+
+.hero{padding:28px 0 20px;display:flex;flex-wrap:wrap;gap:20px;align-items:end;justify-content:space-between}
+.hero h1{font:600 28px/1.15 var(--f-display);letter-spacing:-.02em;margin:0 0 6px;text-wrap:balance}
+.hero p{margin:0;color:var(--muted);max-width:56ch}
+.stats{display:flex;gap:22px}
+.stat b{display:block;font:600 22px var(--f-display);font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+
+.search{position:relative;margin-bottom:18px}
+.search input{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted)}
+
+.layout{display:grid;grid-template-columns:200px 1fr;gap:28px;padding-bottom:60px}
+@media (max-width:760px){.layout{grid-template-columns:1fr;gap:14px}}
+.rail h3{font:600 11px var(--f-body);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 8px}
+.rail section{margin-bottom:22px}
+.rail .opts{display:flex;flex-direction:column;gap:2px}
+@media (max-width:760px){.rail .opts{flex-direction:row;flex-wrap:wrap;gap:6px}.rail section{margin-bottom:12px}}
+.opt{display:flex;justify-content:space-between;gap:8px;text-align:left;background:none;border:0;padding:6px 10px;border-radius:7px;cursor:pointer;color:var(--ink)}
+.opt:hover{background:var(--accent-soft)}
+.opt[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.opt .c{color:var(--muted);font:400 12px var(--f-mono);font-variant-numeric:tabular-nums}
+@media (max-width:760px){.opt{border:1px solid var(--line)}}
+
+.sorting{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;color:var(--muted);font-size:13px}
+.sorting select{background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:5px 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;cursor:pointer;text-align:left;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--accent);transform:translateY(-1px)}
+.card .row{display:flex;justify-content:space-between;align-items:start;gap:10px}
+.card h2{font:600 16px/1.25 var(--f-display);margin:0}
+.card p{margin:0;color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.meta{display:flex;flex-wrap:wrap;gap:6px 12px;color:var(--muted);font-size:12px;margin-top:auto;padding-top:4px}
+.meta span{font-variant-numeric:tabular-nums}
+.pill{font:500 11px var(--f-body);padding:2px 8px;border-radius:99px;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.certified{background:var(--ok-soft);color:var(--ok)}
+.pill.community{background:var(--accent-soft);color:var(--accent)}
+.pill.review{background:var(--warn-soft);color:var(--warn)}
+.pill.deprecated{background:var(--bad-soft);color:var(--bad)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font:400 11px var(--f-mono);background:var(--code);padding:2px 7px;border-radius:5px;color:var(--muted)}
+.plat{font-weight:600;color:var(--ink);display:inline-flex;align-items:center;gap:5px}
+.plat::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--accent)}
+.plat.gemini::before{background:#8b5cf6;border-radius:50%}
+.plat.slack::before{background:#e0a100;border-radius:2px;transform:rotate(45deg)}
+.empty{grid-column:1/-1;padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+
+/* Review queue */
+.queue{display:flex;flex-direction:column;gap:12px;padding-bottom:60px}
+.qrow{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;grid-template-columns:1fr auto;gap:12px 20px;align-items:center}
+@media (max-width:640px){.qrow{grid-template-columns:1fr}}
+.qrow h2{font:600 16px var(--f-display);margin:0 0 2px}
+.qrow .sub{color:var(--muted);font-size:13px}
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.step{font-size:12px;padding:3px 9px;border-radius:6px;background:var(--code);color:var(--muted)}
+.step.done{background:var(--ok-soft);color:var(--ok)}
+.step.now{background:var(--warn-soft);color:var(--warn);font-weight:600}
+.step.fail{background:var(--bad-soft);color:var(--bad)}
+
+/* Detail panel */
+.scrim{position:fixed;inset:0;background:rgba(10,14,20,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
+.scrim.on{opacity:1;pointer-events:auto}
+.panel{position:fixed;top:0;right:0;bottom:0;width:min(480px,100%);background:var(--surface);border-left:1px solid var(--line);transform:translateX(100%);transition:transform .22s;z-index:21;overflow-y:auto;padding:max(22px,env(safe-area-inset-top,0px)) max(22px,env(safe-area-inset-right,0px)) max(22px,env(safe-area-inset-bottom,0px)) 22px}
+.panel.on{transform:none}
+.panel h2{font:600 22px var(--f-display);margin:8px 0 6px;letter-spacing:-.01em}
+.panel .lead{color:var(--muted);margin:0 0 18px}
+.close{float:right;background:none;border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:8px 12px;margin:0 0 20px;padding:14px 0;border-block:1px solid var(--line)}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-variant-numeric:tabular-nums}
+.panel h3{font:600 12px var(--f-body);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:18px 0 8px}
+.cmd{display:flex;align-items:center;gap:8px;background:var(--code);border-radius:8px;padding:10px 12px;font:400 12.5px var(--f-mono);overflow-x:auto}
+.cmd code{white-space:nowrap;flex:1}
+.cmd button{flex:none}
+.checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.checks li{display:flex;gap:8px;align-items:start}
+.checks .ic{flex:none;width:18px;height:18px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center;font-size:11px;font-weight:700;margin-top:1px}
+.checks .ic.w{background:var(--warn-soft);color:var(--warn)}
+.toast{position:fixed;left:50%;bottom:max(20px,env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;opacity:0;transition:.2s;z-index:30;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.note{margin:0 0 18px;padding:10px 14px;border-radius:8px;background:var(--accent-soft);color:var(--accent);font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><i></i>Skill Exchange</div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-browse" aria-selected="true">Browse</button>
+      <button class="tab" role="tab" id="tab-queue" aria-selected="false">In review <span class="n" id="qn">4</span></button>
+    </nav>
+    <div class="spacer"></div>
+    <button class="btn primary" id="submit">Submit a skill</button>
+  </header>
+
+  <div id="view-browse">
+    <section class="hero">
+      <div>
+        <h1>Skills your team has already built and approved</h1>
+        <p>Find a skill for Claude Code, Gemini or Slackbot, and follow its install steps. Every listing has a named owner and a review date.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="s-total">0</b><span>Approved</span></div>
+        <div class="stat"><b id="s-cert">0</b><span>Certified</span></div>
+        <div class="stat"><b id="s-queue">0</b><span>In review</span></div>
+      </div>
+    </section>
+
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
+      <input id="q" type="search" placeholder="Search skills, owners or tags" aria-label="Search skills">
+    </div>
+
+    <div class="layout">
+      <aside class="rail">
+        <section><h3>Platform</h3><div class="opts" id="f-plat"></div></section>
+        <section><h3>Tier</h3><div class="opts" id="f-tier"></div></section>
+        <section><h3>Category</h3><div class="opts" id="f-cat"></div></section>
+      </aside>
+      <main>
+        <div class="sorting"><span id="count"></span>
+          <label>Sort <select id="sort"><option value="installs">Default order</option><option value="recent">Recently reviewed</option><option value="name">Name</option></select></label>
+        </div>
+        <div class="grid" id="grid"></div>
+      </main>
+    </div>
+  </div>
+
+  <div id="view-queue" hidden>
+    <section class="hero"><div><h1>Waiting for review</h1><p>Submissions move through automated checks, then a human reviewer. Merge means approved.</p></div></section>
+    <div class="queue" id="queue"></div>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="panel" id="panel" aria-label="Skill details" role="dialog" aria-modal="true"></aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const PLATS={claude:"Claude Code",gemini:"Gemini",slack:"Slackbot"};
+const SKILLS=/*__SKILLS__*/[];
+const QUEUE=/*__QUEUE__*/[];
+const TIERS={certified:"Certified",community:"Community",deprecated:"Deprecated"};
+const state={q:"",platform:"all",tier:"all",cat:"all",sort:"installs"};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function filtered(){
+  const q=state.q.trim().toLowerCase();
+  let r=SKILLS.filter(s=>(state.platform==="all"||s.platform===state.platform)&&(state.tier==="all"||s.tier===state.tier)&&(state.cat==="all"||s.cat===state.cat)&&
+    (!q||[s.name,s.owner,s.desc,s.tags.join(" ")].join(" ").toLowerCase().includes(q)));
+  r.sort((a,b)=>state.sort==="name"?a.name.localeCompare(b.name):state.sort==="recent"?b.reviewed.localeCompare(a.reviewed):a.name.localeCompare(b.name));
+  return r;
+}
+function renderRail(){
+  const cnt=(k,v)=>SKILLS.filter(s=>s[k]===v).length;
+  const mk=(el,key,items)=>{
+    $(el).innerHTML=[["all","All",SKILLS.length],...items].map(([v,l,c])=>`<button class="opt" data-k="${key}" data-v="${esc(v)}" aria-pressed="${state[key]===v}"><span>${esc(l)}</span><span class="c">${c}</span></button>`).join("");
+  };
+  mk("#f-plat","platform",Object.keys(PLATS).map(p=>[p,PLATS[p],cnt("platform",p)]));
+  mk("#f-tier","tier",Object.keys(TIERS).map(t=>[t,TIERS[t],cnt("tier",t)]));
+  const cats=[...new Set(SKILLS.map(s=>s.cat))].sort();
+  mk("#f-cat","cat",cats.map(c=>[c,c,cnt("cat",c)]));
+}
+function renderGrid(){
+  const r=filtered();
+  $("#count").textContent=r.length+(r.length===1?" skill":" skills");
+  $("#grid").innerHTML=r.length?r.map(s=>`
+    <button class="card" data-id="${s.id}">
+      <div class="row"><h2>${esc(s.name)}</h2><span class="pill ${s.tier}">${TIERS[s.tier]}</span></div>
+      <p>${esc(s.desc)}</p>
+      <div class="tags">${s.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
+      <div class="meta"><span class="plat ${s.platform}">${PLATS[s.platform]}</span><span>${esc(s.owner)}</span><span>v${s.ver}</span></div>
+    </button>`).join(""):`<div class="empty">No skills match. Try a different search, or <b>submit one</b>.</div>`;
+}
+function renderQueue(){
+  if(!QUEUE.length){$("#queue").innerHTML='<div class="empty">Nothing is waiting for review.</div>';return}
+  $("#queue").innerHTML=QUEUE.map(q=>`
+    <div class="qrow"><div>
+      <h2>${esc(q.name)}</h2><div class="sub">${esc(q.owner)} · ${esc(q.sub)}</div>
+      <div class="steps">${q.steps.map(([l,c])=>`<span class="step ${c}">${esc(l)}</span>`).join("")}</div>
+      ${q.fail?`<div class="sub" style="margin-top:8px;color:var(--bad)">${esc(q.fail)}</div>`:""}
+    </div><span class="pill ${q.fail?"deprecated":"review"}">${q.fail?"Changes requested":"In review"}</span></div>`).join("");
+}
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("on"),1800)}
+function copy(txt){
+  try{navigator.clipboard.writeText(txt).then(()=>toast("Install command copied"),()=>toast("Select the command to copy it"))}
+  catch(e){toast("Select the command to copy it")}
+}
+function open(id){
+  const s=SKILLS.find(x=>x.id===id); if(!s) return;
+  const install=s.platform==="claude"?`/plugin install ${s.id}@__MARKETPLACE__`
+    :s.platform==="gemini"?`gemini extensions install __REPO__ --path gemini/${s.id}`
+    :`/skillbot enable ${s.id}`;
+  const how=s.platform==="claude"?"Run in Claude Code":s.platform==="gemini"?"Run in your terminal with Gemini CLI":"Run in any channel where the bot is a member";
+  $("#panel").innerHTML=`
+    <button class="close" id="x">Close</button>
+    <span class="pill ${s.tier}">${TIERS[s.tier]}</span>
+    <h2>${esc(s.name)}</h2><p class="lead">${esc(s.desc)}</p>
+    <h3>${s.platform==="slack"?"Enable in Slack":"Install"}</h3>
+    <p style="margin:0 0 8px;color:var(--muted);font-size:13px">${how}</p>
+    <div class="cmd"><code>${esc(install)}</code><button class="btn" id="cp">Copy</button></div>
+    <h3>Details</h3>
+    <dl class="kv">
+      <dt>Platform</dt><dd>${PLATS[s.platform]}</dd>
+      <dt>Owner</dt><dd>${esc(s.owner)}</dd>
+      <dt>Version</dt><dd>${s.ver}</dd>
+      <dt>Last reviewed</dt><dd>${s.reviewed}</dd>
+      <dt>${s.platform==="slack"?"Permissions":"Tools used"}</dt><dd>${esc(s.tools)}</dd>
+      <dt>Scripts</dt><dd>${esc(s.scripts)}</dd>
+    </dl>
+    <h3>Review summary</h3>
+    <ul class="checks">
+      <li><span class="ic">✓</span>Manifest and frontmatter valid</li>
+      <li><span class="ic">✓</span>No secrets or personal data found</li>
+      <li><span class="ic">✓</span>Tool access limited to what the skill needs</li>
+      <li><span class="ic ${s.scripts==="None"?"":"w"}">${s.scripts==="None"?"✓":"!"}</span>${s.scripts==="None"?"No scripts or hooks":"Scripts reviewed by security: "+esc(s.scripts)}</li>
+    </ul>`;
+  $("#panel").classList.add("on");$("#scrim").classList.add("on");
+  $("#x").focus();
+  $("#x").onclick=close; $("#cp").onclick=()=>copy(install);
+}
+function close(){$("#panel").classList.remove("on");$("#scrim").classList.remove("on")}
+
+document.addEventListener("click",e=>{
+  const o=e.target.closest(".opt"); if(o){state[o.dataset.k]=o.dataset.v;renderRail();renderGrid();return}
+  const c=e.target.closest(".card"); if(c){open(c.dataset.id)}
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});
+$("#scrim").onclick=close;
+$("#q").oninput=e=>{state.q=e.target.value;renderGrid()};
+$("#sort").onchange=e=>{state.sort=e.target.value;renderGrid()};
+$("#submit").onclick=()=>{location.href="__REPO_URL__"};
+function show(v){
+  $("#view-browse").hidden=v!=="browse";$("#view-queue").hidden=v!=="queue";
+  $("#tab-browse").setAttribute("aria-selected",v==="browse");$("#tab-queue").setAttribute("aria-selected",v==="queue");
+}
+$("#tab-browse").onclick=()=>show("browse");$("#tab-queue").onclick=()=>show("queue");
+
+const live=SKILLS.filter(s=>s.tier!=="deprecated");
+$("#s-total").textContent=live.length;$("#s-cert").textContent=live.filter(s=>s.tier==="certified").length;
+$("#qn").textContent=QUEUE.length;$("#s-queue").textContent=QUEUE.length;$("#qn").hidden=!QUEUE.length;
+renderRail();renderGrid();renderQueue();
+</script>

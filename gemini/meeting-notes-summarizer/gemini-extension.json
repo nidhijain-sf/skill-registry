@@ -1,0 +1,5 @@
+{
+  "name": "meeting-notes-summarizer",
+  "version": "1.0.0",
+  "contextFileName": "GEMINI.md"
+}
