@@ -62,4 +62,5 @@ jobs:
           pr_url="$(gh pr create --base main --head "$branch" --title "$title" --body-file "$RESULT_DIR/body.md")"
           # Pull requests opened with the built-in token do not start other workflows, so start the checks by hand.
           gh workflow run validate.yml --ref "$branch"
+          gh workflow run publish.yml --ref main
           gh issue comment "$ISSUE_NUMBER" --body "A pull request was opened for review: $pr_url"

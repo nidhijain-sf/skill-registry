@@ -135,7 +135,7 @@ header.top{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:
     <div class="brand"><i></i>Skill Exchange</div>
     <nav class="tabs" role="tablist">
       <button class="tab" role="tab" id="tab-browse" aria-selected="true">Browse</button>
-      <button class="tab" role="tab" id="tab-queue" aria-selected="false">In review <span class="n" id="qn">4</span></button>
+      <button class="tab" role="tab" id="tab-queue" aria-selected="false">In review <span class="n" id="qn">0</span></button>
     </nav>
     <div class="spacer"></div>
     <button class="btn primary" id="submit">Submit a skill</button>
@@ -225,8 +225,8 @@ function renderQueue(){
   if(!QUEUE.length){$("#queue").innerHTML='<div class="empty">Nothing is waiting for review.</div>';return}
   $("#queue").innerHTML=QUEUE.map(q=>`
     <div class="qrow"><div>
-      <h2>${esc(q.name)}</h2><div class="sub">${esc(q.owner)} · ${esc(q.sub)}</div>
-      <div class="steps">${q.steps.map(([l,c])=>`<span class="step ${c}">${esc(l)}</span>`).join("")}</div>
+      <h2>${q.url?`<a href="${esc(q.url)}" target="_blank" rel="noopener" style="color:inherit">${esc(q.name)}</a>`:esc(q.name)}</h2><div class="sub">${esc(q.owner)} · ${esc(q.sub)}</div>
+      <div class="steps">${q.steps.map(([l,c])=>`<span class="step ${esc(c)}">${esc(l)}</span>`).join("")}</div>
       ${q.fail?`<div class="sub" style="margin-top:8px;color:var(--bad)">${esc(q.fail)}</div>`:""}
     </div><span class="pill ${q.fail?"deprecated":"review"}">${q.fail?"Changes requested":"In review"}</span></div>`).join("");
 }
