@@ -38,10 +38,16 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Reviewers use [docs/REVIEW_CHECKLIST.md]
 ## Set-up for the registry owners
 
 1. Create the repo and push this folder to it.
-2. Replace `YOUR-ORG` in `.github/CODEOWNERS` and create the teams it names.
-3. Turn on branch protection for `main`: require pull requests, require the `Validate submission` check, and require review from Code Owners.
-4. Host the catalog page. `publish.yml` builds `site/index.html` on every merge. Put it behind company SSO.
+2. **Turn on the approval rule.** In the repo go to Settings, Rules, Rulesets, New ruleset, Import a ruleset, and choose `.github/rulesets/protect-main.json`. It requires a pull request, one approval from a Code Owner, and a passing `validate` check before anything merges to `main`. Admins can bypass it, so the owner can merge their own pull requests. Do not skip this step: CODEOWNERS alone does not block merges.
+3. In Settings, Actions, General, set "Fork pull request workflows from outside collaborators" to require approval, so CI does not run for strangers' pull requests until you allow it.
+4. Host the catalog page. `publish.yml` builds `site/index.html` only when something merges to `main`, so nothing appears on the page without approval. Put it behind company SSO when the repo is private.
 5. Delete the three sample skills once real ones are added.
+
+## Moving to a reviewer team
+
+1. Create the teams in your GitHub org and move the repo there.
+2. In `.github/CODEOWNERS`, replace `@nidhijain-sf` on each line with the right team. Use separate teams per platform and a security team for the scripts and manifest lines.
+3. Re-import the ruleset in the new repo. If you want more than one approval, raise `required_approving_review_count` in `.github/rulesets/protect-main.json` first.
 
 ## Things that are placeholders
 

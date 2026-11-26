@@ -1,20 +1,24 @@
-# Merge requires an approving review from the matching owners (enable "Require review from Code Owners"
-# in branch protection for main). Replace YOUR-ORG and the team names with real ones.
+# Every change needs approval from the owner(s) listed here before it can merge to main.
+# Only what is on main appears on the catalog page and in the Claude Code marketplace.
+#
+# TO MOVE TO A REVIEWER TEAM LATER: create the teams in your GitHub org, then replace the
+# handle on each line below with the team, for example @YOUR-ORG/claude-skill-reviewers.
+# Nothing else in the repo needs to change.
 
-# Default: any submission needs one registry maintainer.
-*                          @YOUR-ORG/skill-registry-maintainers
+# Default: any submission needs the registry maintainer.
+*                          @nidhijain-sf
 
 # Platform reviewers: people who understand each platform's permissions model.
-/claude/                   @YOUR-ORG/claude-skill-reviewers
-/gemini/                   @YOUR-ORG/gemini-skill-reviewers
-/slack/                    @YOUR-ORG/slackbot-skill-reviewers
+/claude/                   @nidhijain-sf
+/gemini/                   @nidhijain-sf
+/slack/                    @nidhijain-sf
 
-# Anything that executes code or reaches outside the model always needs the security group.
-**/scripts/                @YOUR-ORG/skill-security-reviewers
-**/hooks/                  @YOUR-ORG/skill-security-reviewers
-**/.mcp.json               @YOUR-ORG/skill-security-reviewers
-/slack/**/manifest.json    @YOUR-ORG/skill-security-reviewers
+# Anything that executes code or reaches outside the model: security reviewers.
+**/scripts/                @nidhijain-sf
+**/hooks/                  @nidhijain-sf
+**/.mcp.json               @nidhijain-sf
+/slack/**/manifest.json    @nidhijain-sf
 
 # Changes to the review process itself.
-/scripts/                  @YOUR-ORG/skill-registry-maintainers @YOUR-ORG/skill-security-reviewers
-/.github/                  @YOUR-ORG/skill-registry-maintainers @YOUR-ORG/skill-security-reviewers
+/scripts/                  @nidhijain-sf
+/.github/                  @nidhijain-sf
