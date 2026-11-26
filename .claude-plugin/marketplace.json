@@ -5,6 +5,13 @@
   },
   "plugins": [
     {
+      "name": "nidhi-test",
+      "source": "./claude/nidhi-test",
+      "description": "Summarises meeting notes into action items and decisions.",
+      "version": "1.0.0",
+      "category": "Testing"
+    },
+    {
       "name": "release-notes-writer",
       "source": "./claude/release-notes-writer",
       "description": "Turns merged pull request titles into customer-facing release notes, grouped by feature area.",
