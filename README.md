@@ -33,13 +33,15 @@ Gemini and Slackbot skills show their install steps on the catalog page.
 
 ## Submitting a skill
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Reviewers use [docs/REVIEW_CHECKLIST.md](docs/REVIEW_CHECKLIST.md).
+Click **Submit a skill** on the catalog page. A form opens, and a workflow turns your answers into a pull request for review. Only people with write access to the repo can use it, because the workflow only runs for the owner, org members and collaborators. See [CONTRIBUTING.md](CONTRIBUTING.md). Reviewers use [docs/REVIEW_CHECKLIST.md](docs/REVIEW_CHECKLIST.md).
 
 ## Set-up for the registry owners
 
 1. Create the repo and push this folder to it.
 2. **Turn on the approval rule.** In the repo go to Settings, Rules, Rulesets, New ruleset, Import a ruleset, and choose `.github/rulesets/protect-main.json`. It requires a pull request, one approval from a Code Owner, and a passing `validate` check before anything merges to `main`. Admins can bypass it, so the owner can merge their own pull requests. Do not skip this step: CODEOWNERS alone does not block merges.
 3. In Settings, Actions, General, set "Fork pull request workflows from outside collaborators" to require approval, so CI does not run for strangers' pull requests until you allow it.
+3a. In the same page, under Workflow permissions, tick "Allow GitHub Actions to create and approve pull requests". The **Submit a skill** button needs this to open pull requests.
+3b. In Settings, Pages, set Source to GitHub Actions so the catalog page can publish.
 4. Host the catalog page. `publish.yml` builds `site/index.html` only when something merges to `main`, so nothing appears on the page without approval. Put it behind company SSO when the repo is private.
 5. Delete the three sample skills once real ones are added.
 

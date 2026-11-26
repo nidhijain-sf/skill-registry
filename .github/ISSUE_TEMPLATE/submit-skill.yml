@@ -1,0 +1,102 @@
+name: Submit a skill
+description: Register a new skill for Claude Code, Gemini or Slackbot. A pull request is opened for review.
+title: "[Skill] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill this in and submit. A pull request with your skill files is opened automatically. The skill is listed on the catalog only after a reviewer approves and merges it.
+
+        This form is for skills that are instructions only. If your skill needs scripts, hooks or MCP servers, open a pull request instead (see CONTRIBUTING.md).
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Claude Code
+        - Gemini
+        - Slackbot
+    validations:
+      required: true
+  - type: input
+    id: skill_id
+    attributes:
+      label: Skill id
+      description: Lowercase letters, numbers and hyphens, for example release-notes-writer.
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      description: The name shown in the catalog, for example Release Notes Writer.
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: Category
+      description: For example Documentation, Operations, Testing, Planning, Code review, Support.
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: One or two sentences, up to 300 characters. Say what it does and when to use it.
+    validations:
+      required: true
+  - type: input
+    id: tags
+    attributes:
+      label: Tags (comma separated)
+      description: Up to 8 short words that help people find it, for example docs, release, writing.
+    validations:
+      required: true
+  - type: input
+    id: owner
+    attributes:
+      label: Owner team
+      description: The team that will maintain this skill.
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: Owner contact
+      description: Where people reach the owner, for example a Slack channel name.
+    validations:
+      required: true
+  - type: input
+    id: tools
+    attributes:
+      label: Tools or file access
+      description: Claude Code and Gemini only. The tools or file access the skill needs, for example Read, Grep. Leave empty for the default of Read.
+  - type: input
+    id: scopes
+    attributes:
+      label: Slack scopes (Slackbot only)
+      description: Comma-separated bot scopes, for example chat:write, commands. Request only what the bot needs.
+  - type: dropdown
+    id: scripts
+    attributes:
+      label: Scripts, hooks or MCP servers
+      options:
+        - None, this skill is instructions only
+        - It needs scripts, hooks or MCP servers
+    validations:
+      required: true
+  - type: textarea
+    id: instructions
+    attributes:
+      label: Instructions
+      description: What the skill tells the assistant to do. Plain Markdown. This becomes the body of SKILL.md (Claude Code), GEMINI.md (Gemini) or README.md (Slackbot).
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: This submission contains no secrets, customer data or real personal data.
+          required: true

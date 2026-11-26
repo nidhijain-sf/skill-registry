@@ -1,5 +1,18 @@
 # Submitting a skill
 
+## Easiest: the Submit a skill button
+
+For skills that are instructions only (no scripts, hooks or MCP servers):
+
+1. Open the catalog page and click **Submit a skill**. It opens a form on GitHub.
+2. Fill it in and submit. You need a GitHub account with access to this repo.
+3. A workflow turns your answers into the skill files and opens a pull request. It comments on your submission with the link, or lists what to fix.
+4. A reviewer approves and merges. The skill then appears on the catalog.
+
+Skills that need scripts, hooks or MCP servers go through a pull request, as below, so the security group can read the code.
+
+## By pull request
+
 1. **Create a folder** under the platform you build for. The folder name is the skill id: lowercase letters, numbers and hyphens.
 
    | Platform | Folder | Required files |
