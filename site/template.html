@@ -278,7 +278,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});
 $("#scrim").onclick=close;
 $("#q").oninput=e=>{state.q=e.target.value;renderGrid()};
 $("#sort").onchange=e=>{state.sort=e.target.value;renderGrid()};
-$("#submit").onclick=()=>{location.href="__REPO_URL__"};
+$("#submit").onclick=()=>{location.href="__REPO_URL__/issues/new?template=submit-skill.yml"};
 function show(v){
   $("#view-browse").hidden=v!=="browse";$("#view-queue").hidden=v!=="queue";
   $("#tab-browse").setAttribute("aria-selected",v==="browse");$("#tab-queue").setAttribute("aria-selected",v==="queue");

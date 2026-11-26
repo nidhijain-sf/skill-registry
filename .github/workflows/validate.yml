@@ -4,6 +4,7 @@ name: Validate submission
 # a different CI system. The checks themselves are plain Python scripts.
 on:
   pull_request:
+  workflow_dispatch:   # lets the intake workflow start the checks for pull requests it opens
 
 permissions:
   contents: read

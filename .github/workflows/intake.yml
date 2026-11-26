@@ -1,0 +1,65 @@
+name: Skill intake
+
+# Turns a "Submit a skill" issue into a pull request. The pull request still needs the owner's
+# approval before anything is listed. Only trusted accounts can trigger it.
+#
+# One-time repo setting: Settings, Actions, General, Workflow permissions, tick
+# "Allow GitHub Actions to create and approve pull requests".
+#
+# Security: the issue text is untrusted. It is never placed in a shell command here. The title is
+# only used in the `if:` condition, and scripts/intake.py reads the body from the event file.
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: write
+
+jobs:
+  intake:
+    if: >-
+      startsWith(github.event.issue.title, '[Skill] ') &&
+      contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE_NUMBER: ${{ github.event.issue.number }}
+      RESULT_DIR: ${{ runner.temp }}/intake
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate skill files from the form
+        id: gen
+        run: |
+          if python scripts/intake.py --event "$GITHUB_EVENT_PATH" --out "$RESULT_DIR"; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Tell the author what to fix
+        if: steps.gen.outputs.ok != 'true'
+        run: gh issue comment "$ISSUE_NUMBER" --body-file "$RESULT_DIR/errors.md"
+
+      - name: Open the pull request
+        if: steps.gen.outputs.ok == 'true'
+        run: |
+          branch="$(cat "$RESULT_DIR/branch.txt")"
+          title="$(cat "$RESULT_DIR/title.txt")"
+          python scripts/build_catalog.py
+          git config user.name "skill-registry-bot"
+          git config user.email "skill-registry-bot@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add -A
+          git commit -m "$title"
+          git push origin "$branch"
+          pr_url="$(gh pr create --base main --head "$branch" --title "$title" --body-file "$RESULT_DIR/body.md")"
+          # Pull requests opened with the built-in token do not start other workflows, so start the checks by hand.
+          gh workflow run validate.yml --ref "$branch"
+          gh issue comment "$ISSUE_NUMBER" --body "A pull request was opened for review: $pr_url"
