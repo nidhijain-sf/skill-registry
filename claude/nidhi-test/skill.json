@@ -1,0 +1,17 @@
+{
+  "id": "nidhi-test",
+  "name": "Nidhi Test",
+  "platform": "claude",
+  "category": "Testing",
+  "tier": "community",
+  "status": "approved",
+  "version": "1.0.0",
+  "owner": "Nidhi",
+  "owner_contact": "Nidhi",
+  "reviewed": "2026-11-26",
+  "description": "Summarises meeting notes into action items and decisions.",
+  "tags": [
+    "test"
+  ],
+  "tools": "Read"
+}
